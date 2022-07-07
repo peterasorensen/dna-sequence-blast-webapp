@@ -1,9 +1,9 @@
 FROM python:3.10-buster
-WORKDIR /root
 
 # add app
-RUN mkdir backend/
-COPY requirements.txt backend/ data/ ./backend/
+RUN mkdir /root/blast_app/
+WORKDIR /root/blast_app/
+COPY requirements.txt backend/ data/ ./
 # install app dependencies
 RUN apt-get update && apt-get install -y ncbi-blast+
 #RUN npm install react-scripts@3.4.1 -g --silent

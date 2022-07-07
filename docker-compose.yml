@@ -2,12 +2,12 @@ version: '3'
 
 services:
   react:
-    build: ./frontend/Dockerfile
+    build: ./frontend/
     image: react-app-image
-    expose:
+    ports:
       - "3000:3000"
   django:
-    build: ./Dockerfile
+    build: ./
     image: django-api-image
-    expose:
+    ports:
       - "8000:8000"
