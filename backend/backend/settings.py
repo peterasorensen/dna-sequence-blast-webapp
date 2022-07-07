@@ -28,7 +28,7 @@ DEBUG = True
 
 aws_public_ip = urllib.request.urlopen("http://checkip.amazonaws.com").read()
 ALLOWED_HOSTS = [
-    aws_public_ip + ":3000",
+    aws_public_ip,
     'localhost',
     '127.0.0.1',
 ]
@@ -63,6 +63,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
+    'http://' + str(aws_public_ip) + ":3000",
     'http://localhost:3000',
 ]
 

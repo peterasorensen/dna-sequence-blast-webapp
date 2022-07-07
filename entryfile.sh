@@ -6,4 +6,4 @@ python3 backend/manage.py makemigrations
 python3 backend/manage.py migrate --noinput
 
 # Start app
-python3 backend/manage.py runserver
+python3 backend/manage.py runserver 0.0.0.0:8000
