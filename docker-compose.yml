@@ -9,5 +9,6 @@ services:
   django:
     build: ./
     image: django-api-image
+    tty: true
     ports:
       - "8000:8000"
