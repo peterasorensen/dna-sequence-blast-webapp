@@ -10,7 +10,7 @@ from .models import BlastQuery, BlastResult
 
 
 @async_to_sync
-async def process_query(query):
+async def process_query(query, sess_id):
     await asyncio.sleep(3)
     eval = 10
     input = query[:]
@@ -27,7 +27,7 @@ async def process_query(query):
     print("STDERR: %s" % stderr)
 
     protein_info = await parse_xml(stdout)
-    await complete_query(query, protein_info)
+    await complete_query(query, protein_info, sess_id)
 
     return stdout
 
@@ -66,12 +66,21 @@ def parse_xml(xml):
 
 
 @sync_to_async
-def complete_query(query, protein_info):
-    blast_query = BlastQuery.objects.filter(dna_sequence=query, completed=False).latest('id')
+def complete_query(query, protein_info, sess_id):
+    blast_query = BlastQuery.objects.filter(user_cookie=sess_id, dna_sequence=query, completed=False).latest('id')
+    run_job(query, blast_query, protein_info, sess_id)
+
+    # cleanup any leftover jobs
+    while BlastQuery.objects.filter(user_cookie=sess_id, completed=False).exists():
+        blast_query = BlastQuery.objects.filter(user_cookie=sess_id, completed=False).latest('id')
+        run_job(query, blast_query, protein_info, sess_id)
+
+
+def run_job(query, blast_query, protein_info, sess_id):
     blast_query.completed = True
     bq_pk = blast_query.id
-
     blast_result = BlastResult(
+        user_cookie=sess_id,
         protein_name=protein_info['protein_name'],
         protein_id=protein_info['protein_id'],
         subseq_start=protein_info['hsp_hit_from'],
@@ -83,21 +92,3 @@ def complete_query(query, protein_info):
     )
     blast_query.save(update_fields=['completed'])
     blast_result.save()
-
-    # cleanup any leftover jobs
-    while BlastQuery.objects.filter(completed=False).exists():
-        blast_query = BlastQuery.objects.filter(completed=False).latest('id')
-        blast_query.completed = True
-        bq_pk = blast_query.id
-        blast_result = BlastResult(
-            protein_name=protein_info['protein_name'],
-            protein_id=protein_info['protein_id'],
-            subseq_start=protein_info['hsp_hit_from'],
-            subseq_end=protein_info['hsp_hit_to'],
-            orig_query=blast_query,
-            dna_sequence=query,
-            locus_tag=protein_info['locus_tag'],
-            hsp_bit_score=protein_info['hsp_bit_score']
-        )
-        blast_query.save(update_fields=['completed'])
-        blast_result.save()

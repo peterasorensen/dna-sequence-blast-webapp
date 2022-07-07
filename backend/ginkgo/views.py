@@ -1,12 +1,7 @@
-import asyncio
-import json
 from threading import Thread
 
-from django.shortcuts import render
 from rest_framework import viewsets
-from rest_framework.decorators import action
 from django.http import HttpResponse
-import logging
 
 from ginkgo.serializers import BlastQuerySerializer, BlastResultSerializer
 from ginkgo.models import BlastQuery, BlastResult
@@ -18,10 +13,27 @@ class BlastQueryViewSet(viewsets.ModelViewSet):
     queryset = BlastQuery.objects.all()
     serializer_class = BlastQuerySerializer
 
+    def get_queryset(self):
+        user_cookie = self.request.query_params.get("user_cookie", None)
+        qs = BlastQuery.objects.all()
+        if user_cookie:
+            qs = qs.filter(user_cookie=user_cookie)
+        dna_seq = self.request.query_params.get("dna_sequence", None)
+        if dna_seq:
+            qs = qs.filter(dna_sequence=dna_seq)
+        return qs
+
     def dispatch(self, request, *args, **kwargs):
         resp = super().dispatch(request, *args, **kwargs)
+        user_cookie = request.COOKIES.get('user_cookie')
+        if not user_cookie:
+            # Visiting for the first time
+            if not request.session.session_key:
+                request.session.save()
+            session_id = request.session.session_key
+            resp.set_cookie('user_cookie', session_id)
         if request.method == 'POST':
-            thread = Thread(target=process_query, args=(resp.data['dna_sequence'],))
+            thread = Thread(target=process_query, args=(resp.data['dna_sequence'], user_cookie,))
             thread.start()
         return resp
 
@@ -29,6 +41,13 @@ class BlastQueryViewSet(viewsets.ModelViewSet):
 class BlastResultViewSet(viewsets.ModelViewSet):
     queryset = BlastResult.objects.all()
     serializer_class = BlastResultSerializer
+
+    def get_queryset(self):
+        user_cookie = self.request.query_params.get("user_cookie", None)
+        qs = BlastResult.objects.all()
+        if user_cookie:
+            qs = qs.filter(user_cookie=user_cookie)
+        return qs
 
 
 def home(request):

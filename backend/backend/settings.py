@@ -53,6 +53,9 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { BallTriangle } from  'react-loader-spinner'
+import Cookies from "js-cookie";
 
 const ResultOutput = (queriesShouldUpdate) => {
   // Solely for 1st useEffect
@@ -13,11 +14,12 @@ const ResultOutput = (queriesShouldUpdate) => {
 
   const requestOptions = {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
   };
 
   useEffect(() => {
-    fetch("http://localhost:8000/search/blastquery/", requestOptions)
+    fetch("http://localhost:8000/search/blastquery/?user_cookie=" + Cookies.get('user_cookie'), requestOptions)
       .then(res => {
         if (res.status >= 400) {
           throw new Error("Server error!!")
@@ -38,7 +40,7 @@ const ResultOutput = (queriesShouldUpdate) => {
 
   useEffect(() => {
     const fFetch = () => {
-      fetch("http://localhost:8000/search/blastresult/", requestOptions)
+      fetch("http://localhost:8000/search/blastresult/?user_cookie=" + Cookies.get('user_cookie'), requestOptions)
         .then(res => {
           if (res.status >= 400) {
             throw new Error("Server error!!")

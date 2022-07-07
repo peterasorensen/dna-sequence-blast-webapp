@@ -1,8 +1,8 @@
-import {Form, FormikProvider, useFormik as resetForm, useFormik} from "formik";
+import {Form, FormikProvider, useFormik} from "formik";
 import * as Yup from "yup";
 import React, {useState} from "react";
 import TextInputLiveFeedback from "../components/Input/TextInputLiveFeedback";
-import ResultOutput from "./ResultOutput";
+import Cookies from 'js-cookie';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -27,7 +27,9 @@ const DNASeqForm = ({queriesShouldUpdate, setQueriesShouldUpdate}) => {
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
+          "user_cookie": Cookies.get('user_cookie'),
           "dna_sequence": values.dna_seq,
           "title": "-",
           "description": "-",
