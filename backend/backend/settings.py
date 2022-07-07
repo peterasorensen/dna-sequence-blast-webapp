@@ -26,7 +26,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-aws_public_ip = urllib.request.urlopen("http://checkip.amazonaws.com").read()
+aws_public_ip = urllib.request.urlopen("http://checkip.amazonaws.com").read().decode("utf-8")
 ALLOWED_HOSTS = [
     aws_public_ip,
     'localhost',

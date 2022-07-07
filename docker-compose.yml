@@ -10,5 +10,7 @@ services:
     build: ./
     image: django-api-image
     tty: true
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
     ports:
       - "8000:8000"
