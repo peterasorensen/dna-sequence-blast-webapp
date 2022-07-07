@@ -18,5 +18,4 @@ ENV SECRET_KEY=$SECRET_KEY
 EXPOSE 8000
 
 # Entryfile
-RUN chmod +x ./entrypoint.sh
-ENTRYPOINT ["./entrypoint.sh"]
+CMD /entryfile.sh
