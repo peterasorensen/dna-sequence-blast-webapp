@@ -10,7 +10,7 @@ import logging
 
 from ginkgo.serializers import BlastQuerySerializer, BlastResultSerializer
 from ginkgo.models import BlastQuery, BlastResult
-from ginkgo.utils import lambda_logic
+from ginkgo.utils import process_query
 
 
 # Create your views here.
@@ -20,9 +20,9 @@ class BlastQueryViewSet(viewsets.ModelViewSet):
 
     def dispatch(self, request, *args, **kwargs):
         resp = super().dispatch(request, *args, **kwargs)
-        thread = Thread(target=lambda_logic, args=(resp.data['dna_sequence'],))
-        thread.start()
-        # print(json.loads(request.body)['dna_sequence'])
+        if request.method == 'POST':
+            thread = Thread(target=process_query, args=(resp.data['dna_sequence'],))
+            thread.start()
         return resp
 
 

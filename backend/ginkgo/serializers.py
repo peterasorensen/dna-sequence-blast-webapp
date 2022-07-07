@@ -12,4 +12,4 @@ class BlastQuerySerializer(serializers.ModelSerializer):
 class BlastResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlastResult
-        fields = ('protein_name', 'subseq_start', 'subseq_end')
+        fields = ('protein_name', 'protein_id', 'subseq_start', 'subseq_end', 'orig_query', 'dna_sequence', 'locus_tag', 'hsp_bit_score')
