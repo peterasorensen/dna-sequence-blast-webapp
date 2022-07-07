@@ -3,7 +3,7 @@ FROM python:3.10-buster
 # add app
 RUN mkdir /root/blast_app/
 WORKDIR /root/blast_app/
-COPY requirements.txt entryfile ./
+COPY requirements.txt entryfile.sh ./
 COPY backend/ ./backend
 COPY data/ ./data
 # install app dependencies
