@@ -18,4 +18,5 @@ ENV SECRET_KEY=$SECRET_KEY
 EXPOSE 8000
 
 # Entryfile
-CMD /entryfile.sh
+RUN chmod +x ./entryfile.sh
+CMD ./entryfile.sh
