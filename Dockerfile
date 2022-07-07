@@ -1,22 +1,17 @@
-FROM python:3.11
+FROM python:3.10-buster
 WORKDIR /
-
-# install app dependencies
-# react stuff
-COPY frontend/package.json ./frontend/
-COPY frontend/package-lock.json ./frontend/
-RUN npm install --silent
-RUN npm install react-scripts@3.4.1 -g --silent
-# backend stuff
-RUN apt-get update && apt-get install -y ncbi-blast+
-RUN pip install -r requirements.txt
 
 # add app
 COPY . ./
+# install app dependencies
+RUN apt-get update && apt-get install -y npm ncbi-blast+
+RUN npm install --silent
+#RUN npm install react-scripts@3.4.1 -g --silent
+# backend stuff
+RUN pip3 install -r requirements.txt
 
 # Expose ports
 EXPOSE 3000
-WORKDIR /root
 
 # Generate data
 CMD ["cat", "data/genomes/*.txt > data/genomes/combined_prot.fasta"]
