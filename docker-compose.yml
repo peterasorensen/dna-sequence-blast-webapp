@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  react:
+    build: ./frontend/Dockerfile
+    image: react-app-image
+    expose:
+      - "3000:3000"
+  django:
+    build: ./Dockerfile
+    image: django-api-image
+    expose:
+      - "8000:8000"
