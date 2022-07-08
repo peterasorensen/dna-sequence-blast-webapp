@@ -1,6 +1,5 @@
 # Import Biopython tools for running local BLASTX
 import asyncio
-import os
 import random
 import re
 
@@ -19,9 +18,7 @@ async def process_query(query, sess_id):
     while len(input) <= 17:
         input += query
         eval = 1000
-    utils_dir_path = os.path.dirname(os.path.realpath(__file__))
-    blast_db_path = utils_dir_path + '../../data/db/mydb'
-    cmd_blastx = NcbiblastxCommandline(cmd='blastx', outfmt=5, db=blast_db_path,
+    cmd_blastx = NcbiblastxCommandline(cmd='blastx', outfmt=5, db='data/db/mydb',
                                        word_size=2, threshold=1, seg='no', evalue=eval)
     stdout, stderr = cmd_blastx(stdin=input)
 

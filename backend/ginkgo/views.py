@@ -1,3 +1,4 @@
+import datetime
 from threading import Thread
 
 from rest_framework import viewsets
@@ -31,7 +32,10 @@ class BlastQueryViewSet(viewsets.ModelViewSet):
             if not request.session.session_key:
                 request.session.save()
             session_id = request.session.session_key
-            resp.set_cookie('user_cookie', session_id)
+            monthly = datetime.datetime.now() + datetime.timedelta(days=30)
+            monthly = datetime.datetime.replace(monthly, hour=0, minute=0, second=0)
+            expires = datetime.datetime.strftime(monthly, "%a, %d-%b-%Y %H:%M:%S GMT")
+            resp.set_cookie('user_cookie', session_id, expires=expires)
         if request.method == 'POST':
             thread = Thread(target=process_query, args=(resp.data['dna_sequence'], user_cookie,))
             thread.start()
