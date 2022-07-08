@@ -11,4 +11,6 @@ sudo apt install docker-compose
 docker-compose up
 ```
 
-Deployment was tested on an Ubuntu machine. 
+Deployment was tested on AWS on an Ubuntu machine. 
+
+Demo Link: http://rebrand.ly/dnasearch
