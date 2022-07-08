@@ -36,7 +36,7 @@ const DNASeqForm = ({queriesShouldUpdate, setQueriesShouldUpdate}) => {
           "completed": false
         })
       };
-      fetch('http://localhost:8000/search/blastquery/', requestOptions)
+      fetch('http://3.101.79.185:8000/search/blastquery/', requestOptions)
         .then(res => {
           if (res.status >= 400) {
             throw new Error("Server error!!")

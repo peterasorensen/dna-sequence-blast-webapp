@@ -26,7 +26,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-aws_public_ip = urllib.request.urlopen("http://checkip.amazonaws.com").read().decode("utf-8")
+aws_public_ip = urllib.request.urlopen("http://checkip.amazonaws.com").read().decode("utf-8").rstrip('\n')
 ALLOWED_HOSTS = [
     aws_public_ip,
     'localhost',
@@ -63,8 +63,9 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    'http://' + str(aws_public_ip) + ":3000",
+    'http://' + aws_public_ip + ":3000",
     'http://localhost:3000',
+    'http://127.0.0.1:3000',
 ]
 
 ROOT_URLCONF = 'backend.urls'

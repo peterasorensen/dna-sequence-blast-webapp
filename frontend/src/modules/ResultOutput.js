@@ -19,7 +19,7 @@ const ResultOutput = (queriesShouldUpdate) => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8000/search/blastquery/?user_cookie=" + Cookies.get('user_cookie'), requestOptions)
+    fetch("http://3.101.79.185:8000/search/blastquery/?user_cookie=" + Cookies.get('user_cookie'), requestOptions)
       .then(res => {
         if (res.status >= 400) {
           throw new Error("Server error!!")
@@ -40,7 +40,7 @@ const ResultOutput = (queriesShouldUpdate) => {
 
   useEffect(() => {
     const fFetch = () => {
-      fetch("http://localhost:8000/search/blastresult/?user_cookie=" + Cookies.get('user_cookie'), requestOptions)
+      fetch("http://3.101.79.185:8000/search/blastresult/?user_cookie=" + Cookies.get('user_cookie'), requestOptions)
         .then(res => {
           if (res.status >= 400) {
             throw new Error("Server error!!")
