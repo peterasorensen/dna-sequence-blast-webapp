@@ -34,7 +34,7 @@ ALLOWED_HOSTS = [
     'dnasearch.hopto.org'
 ]
 
-SESSION_COOKIE_DOMAIN = "dnasearch.hopto.org"
+SESSION_COOKIE_DOMAIN = None
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'
