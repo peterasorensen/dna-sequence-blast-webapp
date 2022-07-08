@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
     aws_public_ip,
     'localhost',
     '127.0.0.1',
+    'dnasearch.hopto.org'
 ]
 
 
@@ -67,6 +68,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://' + aws_public_ip,
     'http://localhost:3000',
     'http://127.0.0.1:3000',
+    'http://dnasearch.hopto.org/'
 ]
 
 ROOT_URLCONF = 'backend.urls'
