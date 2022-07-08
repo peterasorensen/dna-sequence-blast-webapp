@@ -31,7 +31,7 @@ ALLOWED_HOSTS = [
     aws_public_ip,
     'localhost',
     '127.0.0.1',
-    'dnasearch.hopto.org'
+    '.dnasearch.hopto.org'
 ]
 
 SESSION_COOKIE_DOMAIN = None
