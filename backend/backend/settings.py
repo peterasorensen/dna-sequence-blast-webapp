@@ -64,6 +64,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://' + aws_public_ip + ":3000",
+    'http://' + aws_public_ip,
     'http://localhost:3000',
     'http://127.0.0.1:3000',
 ]
