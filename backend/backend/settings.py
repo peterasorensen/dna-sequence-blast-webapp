@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     'dnasearch.hopto.org'
 ]
 
+SESSION_COOKIE_DOMAIN = "dnasearch.hopto.org"
 
 # Application definition
 
