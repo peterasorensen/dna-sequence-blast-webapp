@@ -35,7 +35,7 @@ class BlastQueryViewSet(viewsets.ModelViewSet):
             biweekly = datetime.datetime.now() + datetime.timedelta(days=14)
             biweekly = datetime.datetime.replace(biweekly, hour=0, minute=0, second=0)
             expires = datetime.datetime.strftime(biweekly, "%a, %d-%b-%Y %H:%M:%S GMT")
-            resp.set_cookie('user_cookie', session_id, expires=expires, samesite="none")
+            resp.set_cookie('user_cookie', session_id, expires=expires)
         if request.method == 'POST':
             thread = Thread(target=process_query, args=(resp.data['dna_sequence'], user_cookie,))
             thread.start()
